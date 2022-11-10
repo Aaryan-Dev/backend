@@ -6,14 +6,16 @@ const { connection } = require("./db");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const port = process.env.PORT || 8000;
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 
 const authentication = (req, res, next) => {
-  const { token } = req.query;
+  const token = req.headers?.authorization?.split(" ")[1];
   var decoded = jwt.verify(token, process.env.JWT_KEY);
 
   if (decoded) {
@@ -87,10 +89,10 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/calculateBMI", authentication, async (req, res) => {
-  const { height, weight } = req.body;
+  const { height, weight, bmi } = req.body;
   const { userId } = req.body;
-  const bmi = Number(weight) / Number(height) ** 2;
-  console.log(userId);
+
+  // console.log(userId);
   const new_bmi = new BmiModle({
     bmi,
     userId,
