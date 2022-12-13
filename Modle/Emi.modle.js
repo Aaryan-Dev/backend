@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 const bmiSchema = mongoose.Schema(
   {
     userId: String,
-    bmi: { type: Number, required: true },
-    height: { type: Number, required: true },
-    weight: { type: Number, required: true },
+    loan: { type: Number, required: true },
+    intrest: { type: Number, required: true },
+    months: { type: Number, required: true },
+    emi: { type: Number, required: true },
   },
   { timestamps: true }
 );

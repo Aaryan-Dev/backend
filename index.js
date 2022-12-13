@@ -90,15 +90,22 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/calculateEMI", authentication, async (req, res) => {
-  const { height, weight, bmi } = req.body;
+  const { loan, intrest, months } = req.body;
   const { userId } = req.body;
+
+  //  EMI:E = P x r x ( 1 + r )n / ( ( 1 + r )n - 1 )
+
+  let emi =
+    (Number(loan) * Number(intrest) * (1 + Number(intrest)) * Number(months)) /
+    ((1 + Number(intrest)) * Number(months) - 1);
 
   // console.log(userId);
   const new_bmi = new BmiModle({
-    bmi,
+    loan,
     userId,
-    height,
-    weight,
+    intrest,
+    months,
+    emi,
   });
   await new_bmi.save();
 
