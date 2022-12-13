@@ -106,7 +106,7 @@ app.post("/calculateEMI", authentication, async (req, res) => {
 
 app.get("/logout", authentication, async (req, res) => {
   res.removeHeader("Authorization");
-  res.send("done");
+  res.send({ msg: "done" });
   // req.setRequestHeader("Authorization", "");
 });
 
