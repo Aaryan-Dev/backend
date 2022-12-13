@@ -109,7 +109,7 @@ app.post("/calculateEMI", authentication, async (req, res) => {
   });
   await new_bmi.save();
 
-  res.send({ bmi });
+  res.send({ emi });
 });
 
 app.get("/logout", authentication, async (req, res) => {
