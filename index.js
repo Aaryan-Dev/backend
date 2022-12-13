@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 //logOut
 
 app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
 
   const exists = await UserModle.findOne({ email });
 
@@ -53,6 +53,7 @@ app.post("/signup", async (req, res) => {
       } else {
         const new_user = new UserModle({
           email,
+          username,
           password: hash,
         });
 
