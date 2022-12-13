@@ -1,14 +1,14 @@
 const express = require("express");
 
 const { UserModle } = require("./Modle/User.modle");
-const { BmiModle } = require("./Modle/Bmi.modle");
+const { BmiModle } = require("./Modle/Emi.modle");
 const { connection } = require("./db");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const cors = require("cors");
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 
@@ -30,7 +30,7 @@ const authentication = (req, res, next) => {
 };
 
 app.get("/", (req, res) => {
-  res.send("This is Api for BMI App");
+  res.send("This is Api for EMI App");
 });
 //signup
 //login
@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
   });
 });
 
-app.post("/calculateBMI", authentication, async (req, res) => {
+app.post("/calculateEMI", authentication, async (req, res) => {
   const { height, weight, bmi } = req.body;
   const { userId } = req.body;
 
@@ -104,11 +104,17 @@ app.post("/calculateBMI", authentication, async (req, res) => {
   res.send({ bmi });
 });
 
+app.get("/logout", authentication, async (req, res) => {
+  res.removeHeader("Authorization");
+  res.send("done");
+  // req.setRequestHeader("Authorization", "");
+});
+
 app.get("/getCalculation", authentication, async (req, res) => {
   const { userId } = req.body;
   const bmi_data = await BmiModle.find({ userId });
 
-  res.send({ bmi_data });
+  res.send({ msg: bmi_data });
 });
 
 app.get("/getProfile", authentication, async (req, res) => {
